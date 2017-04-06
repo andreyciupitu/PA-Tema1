@@ -35,6 +35,9 @@ int main()
 
     fout << assignIntervals(points, intervals);
 
+    fin.close();
+    fout.close();
+
     return 0;
 }
 
