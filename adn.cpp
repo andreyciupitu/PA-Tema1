@@ -1,10 +1,8 @@
 #include <fstream>
-#include <iostream>
 #include <vector>
 
 using namespace std;
 
-bool is_valid[110][110][110][110];
 bool testDna(string sequences[], int count, string dna);
 
 int main()
@@ -12,7 +10,6 @@ int main()
     int tests_count;
     string sequences[4] = {"", "", "", ""};
     string dna;
-
     ifstream fin("adn.in");
     ofstream fout("adn.out");
 
@@ -36,6 +33,19 @@ int main()
     return 0;
 }
 
+/**
+ * Functia determina daca o secventa ADN este compusa din bucatile date.
+ * Pentru testare, functia foloseste un tablou 4D pentru retinerea solutiilor
+ * subproblemelor.
+ *
+ * @method testDna
+ *
+ * @param  sequences Bucatile de ADN.
+ * @param  count     Numarul de bucati.
+ * @param  dna       Secventa ce trebuie testata.
+ *
+ * @return TRUE daca secventa este valida, FALSE in caz contrar.
+ */
 bool testDna(string sequences[], int count, string dna)
 {
     /* N == 1 */
@@ -46,7 +56,7 @@ bool testDna(string sequences[], int count, string dna)
     int length = 0;
     for (int i = 0; i < count; i++)
         length += sequences[i].length();
-    if (length != dna.length())
+    if (length != (int)dna.length())
         return false;
 
     int l1 = sequences[0].length();
@@ -54,6 +64,19 @@ bool testDna(string sequences[], int count, string dna)
     int l3 = sequences[2].length();
     int l4 = sequences[3].length();
 
+    /* Aloca memorie pentru PD */
+    bool ****is_valid = new bool***[l1 + 1];
+    for (int i = 0; i <= l1; i++)
+    {
+        is_valid[i] = new bool**[l2 + 1];
+        for (int j = 0; j <= l2; j++)
+        {
+            is_valid[i][j] = new bool*[l3 + 1];
+            for (int k = 0; k <= l3; k++)
+                is_valid[i][j][k] = new bool[l4 + 1];
+        }
+    }
+    /* Start PD */
     is_valid[0][0][0][0] = true;
 
     for (int i = 0; i <= l1; i++)
@@ -74,6 +97,19 @@ bool testDna(string sequences[], int count, string dna)
                 }
 
     bool result = is_valid[l1][l2][l3][l4];
+
+    /* Elibereaza memoria */
+    for (int i = 0; i <= l1; i++)
+    {
+        for (int j = 0; j <= l2; j++)
+        {
+            for (int k = 0; k <= l3; k++)
+                delete[] is_valid[i][j][k];
+            delete[] is_valid[i][j];
+        }
+        delete[] is_valid[i];
+    }
+    delete[] is_valid;
 
     return result;
 }
