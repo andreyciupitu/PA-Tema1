@@ -1,0 +1,55 @@
+Tema #1 PA
+
+Nume: Ciupitu Andr-Valentin
+Grupa: 322CC
+
+========================== Detalii de implementare =============================
+
+======== Problema 1 ========
+
+    Pentru rezolvarea acestei probleme am utilizat un algoritm greedy, de
+complexitate O(M log M), unde M reprezinta numarul de intervale. Mai intai,
+intervalele sunt sortate dupa capatul din stanga, apoi se parcurg pana cand
+se ajunge la primul interval care contine urmatorul punct neacoperit.
+    Pornind de la acel interval, intervalele sunt parcurse in continuare,
+retinand intervalul cu cea mai mare acoperire (capatul din dreapta mai mare),
+pana cand se ajunge la un interval care nu mai contine punctul curent. Se cauta
+apoi urmatorul punct neacoperit.
+
+======== Problema 2 ========
+
+    Pentru rezolvarea acestei probleme am utilizat un algoritm ce foloseste
+programarea dinamica. Astfel, am utilizat un tablou 4D pentru retinerea
+solutiilor subproblemelor:
+    is_valid[i][j][k][l] este TRUE daca primele i + j + k + l - 1 din sirul ce
+trebuie testat reprezinta intrepatrunderea primelor i caractere din primul sir,
+j caractere din al doilea sir, etc.
+    Pentru cazurile N = 2 si N = 3 am completat pana la N = 4 cu
+siruri vide. Complexitatea algoritmului este de O(L1 * L2 * L3 * L4), unde Li,
+reprezinta lungimea sirului i + 1.
+
+======== Problema 3 ========
+
+    Pentru rezolvarea acestei probleme am folosit un algoritm greedy cu
+complexitatea O(n), unde n reprezinta numarul de stropitori. O stropitoare va fi
+asezata mereu la stanga daca este posibil (nu atinge alte stropitori), deoarece
+va putea fi activa fara a modifica portiunea udata. Daca nu poate fi orientata
+spre stanga, va fi asezata la dreapta, cat timp nu atinge stropitoarea aflata
+imediat dupa ea. Dupa ce se determina orientarea unei stropitori se
+actualizeaza marginea din dreapta a portiunii udate.
+
+======== Bonus ========
+
+    Daca numarul de vieti este mai mare sau egal cu log N, atunci se poate
+folosi cautarea binara pentru determinarea nivelului, acesta reprezentand si
+numarul minim de comparatii.
+    In caz contrar se cauta cel mai mic numar de comparatii care in combinatie
+cu K vieti poate acoperi intervalul 0 - N. Se observa ca fiecarei comparatii
+ii poate fi asociata valoarea 1 daca s-a pierdut o viata si 0 in caz contrar.
+Fiecarui nivel ii este asociata asadar o secventa de 0 si 1.
+    Astfel, nivelul maxim care poate fi acoperit cu i comparatii si K vieti
+este egal cu numarul de cuvinte de lungime i formate din {0; 1} ce contin cel
+mult K aparitii ale lui 1.
+    Pentru determinarea minimului este suficient sa gasim prima valoare a lui i
+pentru care nivelul maxim este >= N.
+    Complexitatea algoritmului este O(N * K).
